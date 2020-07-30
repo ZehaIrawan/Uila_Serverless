@@ -12,6 +12,7 @@ import PrivateRoutes from './components/routing/PrivateRoutes';
 import Shipping from './components/Shipping';
 import { loadUser } from './redux/actions/auth';
 import store from './redux/store';
+import Upload from './components/Upload'
 import setAuthToken from './utils/setAuthToken';
 
 const App = () => {
@@ -30,6 +31,7 @@ const App = () => {
             <Route exact path="/login" component={Login} />
             <Route exact path="/upgrade" component={Upgrade} />
             <Route exact path="/products" component={ProductList} />
+            <Route exact path="/upload" component={Upload} />
             <PrivateRoutes exact path="/cart" component={Cart} />
             <PrivateRoutes
               exact

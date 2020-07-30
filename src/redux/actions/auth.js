@@ -82,7 +82,7 @@ export const login = (email, password) => async (dispatch) => {
       payload: res.data,
     });
 
-    dispatch(loadUser());
+    // dispatch(loadUser());
   } catch (err) {
     console.log(err);
 

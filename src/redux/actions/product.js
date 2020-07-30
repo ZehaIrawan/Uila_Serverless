@@ -14,7 +14,7 @@ import {
 // Get PRODUGET_PRODUCTS
 export const getProducts = () => async (dispatch) => {
   try {
-    const res = await api.get(`${process.env.REACT_APP_API_BASE_URL}/api/v1/products`);
+    const res = await api.get(`/products`);
 
     dispatch({
       type: GET_PRODUCTS,
@@ -25,11 +25,11 @@ export const getProducts = () => async (dispatch) => {
   }
 };
 
-//
+// Get Product Categories
 
 export const getProductCategories = () => async (dispatch) => {
   try {
-    const res = await api.get(`${process.env.REACT_APP_API_BASE_URL}/api/v1/categories`);
+    const res = await api.get(`/categories`);
 
     dispatch({
       type: GET_PRODUCTS_CATEGORIES,
@@ -49,20 +49,16 @@ export const addProduct = (formData) => async (dispatch) => {
   };
 
   try {
-    const res = await api.post(
-      `${process.env.REACT_APP_API_BASE_URL}/api/v1/products`,
-      formData,
-      config,
-    );
+    const res = await api.post(`/products`, formData, config);
 
     dispatch({
       type: ADD_PRODUCT,
-      payload: res.data,
+      payload: res.formData,
     });
   } catch (err) {
     dispatch({
       type: PRODUCT_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      payload: { err },
     });
   }
 };
@@ -70,7 +66,9 @@ export const addProduct = (formData) => async (dispatch) => {
 // Delete product
 export const deleteProduct = (id) => async (dispatch) => {
   try {
-    await api.delete(`${process.env.REACT_APP_API_BASE_URL}/api/v1/products/${id}`);
+    await api.delete(
+      `${process.env.REACT_APP_API_BASE_URL}/api/v1/products/${id}`,
+    );
 
     dispatch({
       type: DELETE_PRODUCT,
