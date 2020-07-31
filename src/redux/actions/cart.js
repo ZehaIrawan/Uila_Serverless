@@ -11,11 +11,10 @@ import {
 // Get all products
 export const getCart = () => async (dispatch) => {
   try {
-    const res = await api.get(`${process.env.REACT_APP_API_BASE_URL}/api/v1/cart_items`);
-
+    const res = await api.get(`/cart`);
     dispatch({
       type: GET_CART,
-      payload: res.data,
+      payload: res.data[0].cart_items,
     });
   } catch (err) {
     console.log(err);
@@ -23,7 +22,7 @@ export const getCart = () => async (dispatch) => {
 };
 
 // Add an item to cart
-export const addToCart = (productId) => async (dispatch) => {
+export const addToCart = (cart_items) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -31,12 +30,12 @@ export const addToCart = (productId) => async (dispatch) => {
   };
 
   const params = {
-    product_id: productId,
+    product_id: cart_items
   };
 
   try {
     const res = await api.post(
-      `${process.env.REACT_APP_API_BASE_URL}/api/v1/cart_items`,
+      `cart`,
       params,
       config,
     );
@@ -53,7 +52,9 @@ export const addToCart = (productId) => async (dispatch) => {
 // Remove item from cart
 export const removeCart = (id) => async (dispatch) => {
   try {
-    await api.delete(`${process.env.REACT_APP_API_BASE_URL}/api/v1/cart_items/${id}`);
+    await api.delete(
+      `${process.env.REACT_APP_API_BASE_URL}/api/v1/cart_items/${id}`,
+    );
 
     dispatch({
       type: REMOVE_CART,

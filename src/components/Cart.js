@@ -33,10 +33,7 @@ const Cart = ({
     );
   }
 
-  let total = 0;
-  cart.cart.map((item) => {
-    return (total += parseFloat(item.product.price) * parseInt(item.quantity));
-  });
+
   if (cart.cart.length === 0)
     return (
       <Fragment>
@@ -58,8 +55,7 @@ const Cart = ({
       <Navbar />
       {cart.cart.map((cart) => (
         <CartItem
-          key={cart.id}
-          cart_id={cart.id}
+          key={cart._id}
           title={cart.product.title}
           img={cart.product.image}
           price={cart.product.price}
@@ -78,7 +74,7 @@ const Cart = ({
       >
         Clear Cart
       </button>
-      <h3>Total: ${total}</h3>
+      <h3>Total: $</h3>
       <button>
         <Link to="/shipping">Checkout</Link>
       </button>
