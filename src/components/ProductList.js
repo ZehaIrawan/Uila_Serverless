@@ -127,20 +127,20 @@ const ProductList = ({
           let count = 0;
 
           product.forEach((p) => {
-            if (p.category_id === category.id) count += 1;
+            if (p.category === category._id) count += 1;
           });
 
           return (
             <button
               className={
-                isActive === category.id
+                isActive === category._id
                   ? 'border-black  text-white rounded-lg m-4 py-1 px-4 bg-custom-sort bg-primary focus:outline-none shadow-lg'
                   : 'border-gray-900 border-1 rounded-lg m-4 py-1 px-4 bg-gray-200 focus:outline-none shadow-lg'
               }
-              key={category.id}
+              key={category._id}
               onClick={() => {
-                filterProducts(category.id);
-                setIsActive(category.id);
+                filterProducts(category._id);
+                setIsActive(category._id);
               }}
             >
               {category.title} ({count})
@@ -151,8 +151,8 @@ const ProductList = ({
         <div className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 grid gap-8">
           {filteredProducts.map((product) => (
             <Product
-              key={product.id}
-              id={product.id}
+              key={product._id}
+              id={product._id}
               img={product.image}
               title={product.title}
               description={product.description}

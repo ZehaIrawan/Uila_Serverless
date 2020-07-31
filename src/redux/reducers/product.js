@@ -24,14 +24,14 @@ const products = (state = initialState, action) => {
     case GET_PRODUCTS:
       return {
         ...state,
-        products: payload.product,
-        filteredProducts: payload.product,
+        products: payload,
+        filteredProducts: payload,
       };
     case FILTER_PRODUCT:
       return {
         ...state,
         filteredProducts: state.products.filter(
-          (product) => product.category_id === payload,
+          (product) => product.category === payload,
         ),
       };
     case GET_PRODUCTS_CATEGORIES:
