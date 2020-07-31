@@ -24,6 +24,10 @@ const ProductSchema = new Schema({
   image:{
     type: String,
   }
+  ,
+  image_public_id:{
+    type:String
+  }
 });
 
 module.exports = mongoose.model('product', ProductSchema);
