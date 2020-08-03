@@ -115,6 +115,32 @@ router.put('/', auth, async (req, res) => {
   }
 });
 
+// Remove product from cart
+router.delete('/', auth, async (req, res) => {
+  try {
+    const cart = await Cart.find({ user: req.user.id }).populate({
+      path: 'cart_items',
+      populate: {
+        path: 'product',
+        model: 'product',
+      },
+    });
+
+    let updatedCart = cart[0].cart_items.filter((e) => {
+      console.log(`${e.product._id}` !== req.body.cart_items.product._id);
+      return `${e.product._id}` !== req.body.cart_items.product._id;
+    });
+
+    cart[0].cart_items = updatedCart;
+    await cart[0].save();
+
+    res.json('Product Deleted');
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 app.use('/.netlify/functions/cart', router); //
 
 module.exports = app;
