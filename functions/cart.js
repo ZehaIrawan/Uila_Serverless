@@ -12,7 +12,7 @@ const app = express();
 const router = express.Router();
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 
 // Create Cart
 router.post(
@@ -116,7 +116,7 @@ router.put('/', auth, async (req, res) => {
 });
 
 // Remove product from cart
-router.delete('/', auth, async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
   try {
     const cart = await Cart.find({ user: req.user.id }).populate({
       path: 'cart_items',
@@ -127,8 +127,7 @@ router.delete('/', auth, async (req, res) => {
     });
 
     let updatedCart = cart[0].cart_items.filter((e) => {
-      console.log(`${e.product._id}` !== req.body.cart_items.product._id);
-      return `${e.product._id}` !== req.body.cart_items.product._id;
+      return `${e.product._id}` !== req.params.id;
     });
 
     cart[0].cart_items = updatedCart;

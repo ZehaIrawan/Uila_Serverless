@@ -50,7 +50,7 @@ const cart = (state = initialState, action) => {
     case REMOVE_CART:
       return {
         ...state,
-        cart: state.cart.filter((cart) => cart.id !== payload),
+        cart: state.cart.filter((cart) => cart.product._id !== payload),
         loading: false,
       };
 

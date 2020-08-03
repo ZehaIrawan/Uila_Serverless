@@ -23,13 +23,6 @@ export const getCart = () => async (dispatch) => {
 
 // Add an item to cart
 export const addToCart = (id, quantity) => async (dispatch) => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-
-  console.log();
   const params = {
     cart_items: {
       product: id,
@@ -38,7 +31,7 @@ export const addToCart = (id, quantity) => async (dispatch) => {
   };
 
   try {
-    const res = await api.post(`cart`, params, config);
+    const res = await api.post(`cart`, params);
 
     dispatch({
       type: ADD_TO_CART,
@@ -52,10 +45,7 @@ export const addToCart = (id, quantity) => async (dispatch) => {
 // Remove item from cart
 export const removeCart = (id) => async (dispatch) => {
   try {
-    await api.delete(
-      `${process.env.REACT_APP_API_BASE_URL}/api/v1/cart_items/${id}`,
-    );
-
+    await api.delete(`/cart/${id}`);
     dispatch({
       type: REMOVE_CART,
       payload: id,
