@@ -26,7 +26,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const product = await Product.findById(req.body.cart_items.product)
+    const product = await Product.findById(req.body.cart_items.product);
     const initialCart = {
       user: req.user.id,
       cart_items: req.body.cart_items,
@@ -85,19 +85,16 @@ router.put('/', auth, async (req, res) => {
     });
 
     const checkProductExist = (payload) => {
-      cart[0].cart_items.map((e) => {
-        if (`${e.product._id}` === payload.product_id) {
-          e.quantity = payload.quantity;
-        } else {
-          cart[0].cart_items.push({
+      cart[0].cart_items.some((e) => `${e.product._id}` === payload.product._id)
+        ? (cart[0].cart_items.filter(
+            (e) => `${e.product._id}` === payload.product._id,
+          )[0].quantity = payload.quantity)
+        : cart[0].cart_items.push({
             quantity: payload.quantity,
             product: {
-              _id: payload.product_id,
+              _id: payload.product._id,
             },
           });
-        }
-        return e;
-      });
     };
 
     checkProductExist(req.body.cart_items);

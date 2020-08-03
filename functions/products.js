@@ -19,7 +19,7 @@ const router = express.Router();
 cloudinary.config({
   cloud_name: process.env.cloud_name,
   api_key: process.env.api_key,
-  api_secret: process.env.api_secret
+  api_secret: process.env.api_secret,
 });
 
 // Add Product
@@ -33,9 +33,12 @@ router.post(
   [check('image', 'Image is required').not().isEmpty()],
 
   async (req, res) => {
-    const cloudinaryUpload = await cloudinary.v2.uploader.upload(req.body.image, {
-      resource_type: 'image',
-    });
+    const cloudinaryUpload = await cloudinary.v2.uploader.upload(
+      req.body.image,
+      {
+        resource_type: 'image',
+      },
+    );
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -55,7 +58,7 @@ router.post(
         description: req.body.description,
         price: req.body.price,
         image: cloudinaryUpload.url,
-        image_public_id: cloudinaryUpload.public_id
+        image_public_id: cloudinaryUpload.public_id,
       });
 
       const product = await newProduct.save();

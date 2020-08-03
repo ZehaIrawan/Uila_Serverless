@@ -11,15 +11,22 @@ const initialState = {
   cart: [],
   loading: true,
   error: {},
+  total: 0,
 };
 
 const cart = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
     case GET_CART:
-      return { ...state, cart: payload, loading: false };
+      return {
+        ...state,
+        cart: payload.cart_items,
+        total: payload.total,
+        loading: false,
+      };
     case ADD_TO_CART:
       let newProduct = false;
+
       const productInCart = state.cart.map((item, index) => {
         if (item.id === payload.id) {
           newProduct = false;
@@ -37,6 +44,7 @@ const cart = (state = initialState, action) => {
         ...state,
         cart: productInCart,
         payload,
+        total: payload.total,
         loading: false,
       };
     case REMOVE_CART:
@@ -45,6 +53,7 @@ const cart = (state = initialState, action) => {
         cart: state.cart.filter((cart) => cart.id !== payload),
         loading: false,
       };
+
     case INCREASE_CART:
       return {
         ...state,

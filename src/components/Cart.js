@@ -7,6 +7,7 @@ import {
   getCart,
   increaseCart,
   removeCart,
+  updateCart
 } from '../redux/actions/cart';
 import CartItem from './CartItem';
 import Navbar from './Navbar';
@@ -64,6 +65,7 @@ const Cart = ({
               quantity={cart.quantity}
               increaseCart={increaseCart}
               decreaseCart={decreaseCart}
+              updateCart={updateCart}
               removeCart={removeCart}
               cart={cart}
             />
@@ -78,7 +80,7 @@ const Cart = ({
           >
             Clear Cart
           </button>
-          <h3>Total: $</h3>
+          <h3>Total: ${cart.total}</h3>
           <button>
             <Link to="/shipping">Checkout</Link>
           </button>

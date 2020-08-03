@@ -14,7 +14,7 @@ export const getCart = () => async (dispatch) => {
     const res = await api.get(`/cart`);
     dispatch({
       type: GET_CART,
-      payload: res.data[0].cart_items,
+      payload: res.data[0],
     });
   } catch (err) {
     console.log(err);
@@ -22,23 +22,23 @@ export const getCart = () => async (dispatch) => {
 };
 
 // Add an item to cart
-export const addToCart = (cart_items) => async (dispatch) => {
+export const addToCart = (id, quantity) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
     },
   };
 
+  console.log();
   const params = {
-    product_id: cart_items
+    cart_items: {
+      product: id,
+      quantity,
+    },
   };
 
   try {
-    const res = await api.post(
-      `cart`,
-      params,
-      config,
-    );
+    const res = await api.post(`cart`, params, config);
 
     dispatch({
       type: ADD_TO_CART,
@@ -135,5 +135,34 @@ export const clearCart = (cart) => async (dispatch) => {
     } catch (err) {
       console.log(err);
     }
+  }
+};
+
+// Update Cart
+export const updateCart = (id, quantity) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  const params = {
+    cart_items: {
+      product: {
+        _id: id,
+      },
+      quantity,
+    },
+  };
+
+  try {
+    const res = await api.put(`cart`, params, config);
+
+    dispatch({
+      type: ADD_TO_CART,
+      payload: res.data,
+    });
+  } catch (err) {
+    console.log(err);
   }
 };

@@ -23,10 +23,6 @@ cart_items: [
     type: Number,
     default:0
   },
-  shipping: {
-    type: Number,
-    default:20,
-  },
 });
 
 module.exports = mongoose.model('cart', CartSchema);
