@@ -7,6 +7,7 @@ import {
   getCart,
   increaseCart,
   removeCart,
+  updateCart
 } from '../redux/actions/cart';
 import CartItem from './CartItem';
 import Navbar from './Navbar';
@@ -33,10 +34,6 @@ const Cart = ({
     );
   }
 
-  let total = 0;
-  cart.cart.map((item) => {
-    return (total += parseFloat(item.product.price) * parseInt(item.quantity));
-  });
   if (cart.cart.length === 0)
     return (
       <Fragment>
@@ -56,32 +53,39 @@ const Cart = ({
   return (
     <Fragment>
       <Navbar />
-      {cart.cart.map((cart) => (
-        <CartItem
-          key={cart.id}
-          cart_id={cart.id}
-          title={cart.product.title}
-          img={cart.product.image}
-          price={cart.product.price}
-          product_id={cart.product_id}
-          quantity={cart.quantity}
-          increaseCart={increaseCart}
-          decreaseCart={decreaseCart}
-          removeCart={removeCart}
-          cart={cart}
-        />
-      ))}
-      <button
-        onClick={() => {
-          clearCart(cart.cart);
-        }}
-      >
-        Clear Cart
-      </button>
-      <h3>Total: ${total}</h3>
-      <button>
-        <Link to="/shipping">Checkout</Link>
-      </button>
+      <div className="flex">
+        <div>
+          {cart.cart.map((cart) => (
+            <CartItem
+              key={cart._id}
+              title={cart.product.title}
+              img={cart.product.image}
+              price={cart.product.price}
+              product_id={cart.product._id}
+              quantity={cart.quantity}
+              increaseCart={increaseCart}
+              decreaseCart={decreaseCart}
+              updateCart={updateCart}
+              removeCart={removeCart}
+              cart={cart}
+            />
+          ))}
+        </div>
+
+        <div className="ml-20">
+          <button
+            onClick={() => {
+              clearCart(cart.cart);
+            }}
+          >
+            Clear Cart
+          </button>
+          <h3>Total: ${cart.total}</h3>
+          <button>
+            <Link to="/shipping">Checkout</Link>
+          </button>
+        </div>
+      </div>
     </Fragment>
   );
 };

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 const CartItem = ({
@@ -19,10 +19,12 @@ const CartItem = ({
   };
 
   return (
-    <Fragment>
+    <div className="ml-32">
       <div>
-        <h1>{title}</h1>
-        <img src={img} width="200" alt="" />
+        <div className="flex mt-12">
+          <img src={img} width="200" alt="" className="mr-12 rounded-lg" />
+          <h1>{title}</h1>
+        </div>
         <h4>$ {price}</h4>
         <input
           type="integer"
@@ -31,9 +33,16 @@ const CartItem = ({
         ></input>
         <button onClick={() => decreaseCart(cart_id, quantity - 1)}>-</button>
         <button onClick={() => increaseCart(cart_id, quantity + 1)}>+</button>
-        <button onClick={() => removeCart(cart_id)}>Delete</button>
+        <button
+          onClick={() => {
+            console.log(product_id);
+            removeCart(product_id);
+          }}
+        >
+          Delete
+        </button>
       </div>
-    </Fragment>
+    </div>
   );
 };
 

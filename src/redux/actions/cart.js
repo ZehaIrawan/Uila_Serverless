@@ -11,11 +11,10 @@ import {
 // Get all products
 export const getCart = () => async (dispatch) => {
   try {
-    const res = await api.get(`${process.env.REACT_APP_API_BASE_URL}/api/v1/cart_items`);
-
+    const res = await api.get(`/cart`);
     dispatch({
       type: GET_CART,
-      payload: res.data,
+      payload: res.data[0],
     });
   } catch (err) {
     console.log(err);
@@ -23,23 +22,16 @@ export const getCart = () => async (dispatch) => {
 };
 
 // Add an item to cart
-export const addToCart = (productId) => async (dispatch) => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
+export const addToCart = (id, quantity) => async (dispatch) => {
+  const params = {
+    cart_items: {
+      product: id,
+      quantity,
     },
   };
 
-  const params = {
-    product_id: productId,
-  };
-
   try {
-    const res = await api.post(
-      `${process.env.REACT_APP_API_BASE_URL}/api/v1/cart_items`,
-      params,
-      config,
-    );
+    const res = await api.post(`cart`, params);
 
     dispatch({
       type: ADD_TO_CART,
@@ -53,8 +45,7 @@ export const addToCart = (productId) => async (dispatch) => {
 // Remove item from cart
 export const removeCart = (id) => async (dispatch) => {
   try {
-    await api.delete(`${process.env.REACT_APP_API_BASE_URL}/api/v1/cart_items/${id}`);
-
+    await api.delete(`/cart/${id}`);
     dispatch({
       type: REMOVE_CART,
       payload: id,
@@ -134,5 +125,34 @@ export const clearCart = (cart) => async (dispatch) => {
     } catch (err) {
       console.log(err);
     }
+  }
+};
+
+// Update Cart
+export const updateCart = (id, quantity) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  const params = {
+    cart_items: {
+      product: {
+        _id: id,
+      },
+      quantity,
+    },
+  };
+
+  try {
+    const res = await api.put(`cart`, params, config);
+
+    dispatch({
+      type: ADD_TO_CART,
+      payload: res.data,
+    });
+  } catch (err) {
+    console.log(err);
   }
 };

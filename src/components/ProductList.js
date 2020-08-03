@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import { connect } from 'react-redux';
-import { addToCart } from '../redux/actions/cart';
+import { addToCart,updateCart } from '../redux/actions/cart';
 import {
   filterProducts,
   getProductCategories,
@@ -23,6 +23,8 @@ const ProductList = ({
   categories,
   addToCart,
   isAuthenticated,
+  cart,
+  updateCart
 }) => {
   useEffect(() => {
     getProducts();
@@ -159,6 +161,8 @@ const ProductList = ({
               price={product.price}
               addToCart={addToCart}
               isAuthenticated={isAuthenticated}
+              cart={cart}
+              updateCart={updateCart}
             />
           ))}
         </div>
@@ -174,6 +178,7 @@ const mapStateToProps = (state) => ({
   filteredProducts: state.product.filteredProducts,
   categories: state.product.categories,
   isAuthenticated: state.auth.isAuthenticated,
+  cart:state.cart.cart
 });
 
 export default connect(mapStateToProps, {
@@ -182,4 +187,5 @@ export default connect(mapStateToProps, {
   resetFilterProducts,
   getProductCategories,
   addToCart,
+  updateCart
 })(ProductList);

@@ -11,6 +11,8 @@ const Product = ({
   price,
   addToCart,
   isAuthenticated,
+  updateCart,
+  cart,
 }) => {
   const { isShowing, toggle } = useModal();
 
@@ -28,7 +30,15 @@ const Product = ({
         <button
           className="absolute bottom-0 right-0 shadow-lg mt-2 bg-primary text-white px-2 py-1 rounded-lg focus:outline-none font-medium mb-6 mr-6"
           onClick={() => {
-            addToCart(id);
+            cart.length > 0
+              ? updateCart(
+                  id,
+                  cart.some((obj) => obj.product._id === id)
+                    ? cart.filter((obj) => obj.product._id === id)[0].quantity +
+                        1
+                    : 1,
+                )
+              : addToCart(id, 1);
             toggle();
           }}
         >
