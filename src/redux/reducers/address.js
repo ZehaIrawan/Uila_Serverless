@@ -1,4 +1,4 @@
-import { GET_ADDRESS } from '../actions/types';
+import { GET_ADDRESS,ADD_USER_ADDRESS } from '../actions/types';
 
 const initialState = {
   address: [],
@@ -15,7 +15,12 @@ const address = (state = initialState, action) => {
         address: payload,
         loading: false,
       };
-
+     case ADD_USER_ADDRESS:
+       console.log(payload);
+       return{
+         ...state,
+         address: [payload, ...state.address],
+       }
     default:
       return state;
   }

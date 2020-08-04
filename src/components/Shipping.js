@@ -1,10 +1,10 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getAddress } from '../redux/actions/address';
+import { getAddress,createAddress } from '../redux/actions/address';
 import Navbar from './Navbar';
 
-const Shipping = ({ address, getAddress }) => {
+const Shipping = ({ address, getAddress,createAddress }) => {
   useEffect(() => {
     getAddress();
   }, [getAddress]);
@@ -22,6 +22,7 @@ const Shipping = ({ address, getAddress }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
 
+    createAddress(newTitle,newAddress)
     console.log(newTitle, newAddress);
   };
 
@@ -99,4 +100,4 @@ const mapStateToProps = (state) => ({
   address: state.address.address,
 });
 
-export default connect(mapStateToProps, { getAddress })(Shipping);
+export default connect(mapStateToProps, { getAddress,createAddress })(Shipping);
