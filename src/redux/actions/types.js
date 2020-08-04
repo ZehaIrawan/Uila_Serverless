@@ -23,3 +23,6 @@ export const DECREASE_CART = 'DECREASE_CART';
 export const GET_CART = 'GET_CART';
 export const INCREASE_CART = 'INCREASE_CART';
 export const REMOVE_CART = 'REMOVE_CART';
+export const GET_ADDRESS = 'GET_ADDRESS';
+export const ADD_USER_ADDRESS = 'ADD_USER_ADDRESS'
+export const SELECT_ADDRESS = 'SELECT_ADDRESS'

@@ -7,7 +7,7 @@ import {
   getCart,
   increaseCart,
   removeCart,
-  updateCart
+  updateCart,
 } from '../redux/actions/cart';
 import CartItem from './CartItem';
 import Navbar from './Navbar';
@@ -81,7 +81,7 @@ const Cart = ({
             Clear Cart
           </button>
           <h3>Total: ${cart.total}</h3>
-          <button>
+          <button className="shadow-lg mt-2 bg-primary text-white px-2 py-1 rounded-lg focus:outline-none font-medium mb-6 mr-6">
             <Link to="/shipping">Checkout</Link>
           </button>
         </div>
