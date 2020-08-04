@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { getAddress,createAddress,selectAddress } from '../redux/actions/address';
 import Navbar from './Navbar';
 
-const Shipping = ({ address, getAddress,createAddress,selectAddress }) => {
+const Shipping = ({ address, getAddress,createAddress,selectAddress,loading }) => {
   useEffect(() => {
     getAddress();
   }, [getAddress]);
@@ -89,6 +89,13 @@ const Shipping = ({ address, getAddress,createAddress,selectAddress }) => {
     </div>
   );
 
+  if (loading) {
+  return (<div>
+    <Navbar></Navbar>
+    Loading...
+    </div>)
+  }
+
   return (
     <Fragment>
       <Navbar></Navbar>
@@ -99,6 +106,7 @@ const Shipping = ({ address, getAddress,createAddress,selectAddress }) => {
 
 const mapStateToProps = (state) => ({
   address: state.address.address,
+  loading:state.address.loading
 });
 
 export default connect(mapStateToProps, { getAddress,createAddress,selectAddress })(Shipping);
