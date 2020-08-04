@@ -1,5 +1,5 @@
 import api from '../../utils/api';
-import { GET_ADDRESS,ADD_USER_ADDRESS } from './types';
+import { GET_ADDRESS,ADD_USER_ADDRESS,SELECT_ADDRESS } from './types';
 
 // Get User Adresss
 export const getAddress = () => async (dispatch) => {
@@ -30,6 +30,19 @@ export const createAddress = (title,address) => async (dispatch) => {
     dispatch({
       type: ADD_USER_ADDRESS,
       payload: res.data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// Select Address
+export const selectAddress= (address) => async (dispatch) => {
+  try {
+
+    dispatch({
+      type: SELECT_ADDRESS,
+      payload: address
     });
   } catch (err) {
     console.log(err);

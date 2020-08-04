@@ -1,10 +1,10 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getAddress,createAddress } from '../redux/actions/address';
+import { getAddress,createAddress,selectAddress } from '../redux/actions/address';
 import Navbar from './Navbar';
 
-const Shipping = ({ address, getAddress,createAddress }) => {
+const Shipping = ({ address, getAddress,createAddress,selectAddress }) => {
   useEffect(() => {
     getAddress();
   }, [getAddress]);
@@ -13,6 +13,8 @@ const Shipping = ({ address, getAddress,createAddress }) => {
     newtitle: '',
     newAddress: '',
   });
+
+
 
   const { newTitle, newAddress } = formData;
 
@@ -23,7 +25,6 @@ const Shipping = ({ address, getAddress,createAddress }) => {
     e.preventDefault();
 
     createAddress(newTitle,newAddress)
-    console.log(newTitle, newAddress);
   };
 
   const emptyAddress = (
@@ -37,10 +38,10 @@ const Shipping = ({ address, getAddress,createAddress }) => {
   const userAddress = (
     <div>
       <h1 className="text-lg font-semibold">Select a delivery address</h1>
-      <select>
+      <select  onChange={e => selectAddress(e.target.value)}>
         {address.map((e) => {
           return (
-            <option key={e.title}>
+            <option key={e.title} >
               {e.title}
 
               {e.address}
@@ -100,4 +101,4 @@ const mapStateToProps = (state) => ({
   address: state.address.address,
 });
 
-export default connect(mapStateToProps, { getAddress,createAddress })(Shipping);
+export default connect(mapStateToProps, { getAddress,createAddress,selectAddress })(Shipping);
