@@ -4,8 +4,9 @@ import React from 'react';
 import CheckoutForm from './CheckoutForm';
 import Navbar from './Navbar';
 
+
 const stripePromise = loadStripe(
-  'pk_test_51HCKcKGugXNbyMGPDLaxk33eVxiW8psuO1t9KcfMPgHhKX8YXIWd5FdvPlWu9RzempR83fCQhFLiUdGLbSzNlVSM00GvRTkc3q',
+  process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY
 );
 
 const Payment = () => {

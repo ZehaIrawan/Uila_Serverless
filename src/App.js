@@ -14,6 +14,7 @@ import { loadUser } from './redux/actions/auth';
 import store from './redux/store';
 import Upload from './components/Upload'
 import setAuthToken from './utils/setAuthToken';
+import Alert from './components/Alert'
 
 const App = () => {
   useEffect(() => {
@@ -25,6 +26,7 @@ const App = () => {
     <Provider store={store}>
       <Router>
         <div className="bg-white" id="app">
+          <Alert></Alert>
           <Switch>
             <Route exact path="/" component={ProductList} />
             <Route exact path="/register" component={Register} />

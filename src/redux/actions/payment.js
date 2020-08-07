@@ -1,9 +1,10 @@
 import api from '../../utils/api';
-import { INITIATE_CHECKOUT } from './types';
+import { INITIATE_CHECKOUT,PAYMENT_ERROR } from './types';
+import {setAlert} from './alert'
 
-// Add Product
+
+// Create Payment
 export const initiateCheckout = (orderDetails) => async (dispatch) => {
-  console.log('sss');
   try {
     const res = await api.post(`/payment`, orderDetails);
 
@@ -12,6 +13,6 @@ export const initiateCheckout = (orderDetails) => async (dispatch) => {
       payload: res.formData,
     });
   } catch (err) {
-    console.log(err);
+    dispatch(setAlert(err.response.data.message, 'bg-red-600'));
   }
 };

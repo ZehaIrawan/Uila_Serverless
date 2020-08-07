@@ -4,6 +4,7 @@ const { check, validationResult } = require('express-validator');
 const auth = require('../middleware/auth');
 require('./server');
 const Stripe = require('stripe')
+require('dotenv').config();
 
 const app = express();
 const router = express.Router();
@@ -11,7 +12,7 @@ const router = express.Router();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-const stripe = new Stripe("sk_test_51HCKcKGugXNbyMGPdUBMxtHmflZ0bckq4rzlBqkebqeRVuqytOLtu4MhZCUrkOOBiy7T71jnElUYqu3nzr4DAGlC00Ev4qMSBD");
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY );
 
 // Create Address
 router.post(
