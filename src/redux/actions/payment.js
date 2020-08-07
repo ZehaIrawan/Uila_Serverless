@@ -1,5 +1,5 @@
 import api from '../../utils/api';
-import { INITIATE_CHECKOUT,PAYMENT_ERROR } from './types';
+import {  PAYMENT_SUCCESS } from './types';
 import {setAlert} from './alert'
 
 
@@ -9,7 +9,7 @@ export const initiateCheckout = (orderDetails) => async (dispatch) => {
     const res = await api.post(`/payment`, orderDetails);
 
     dispatch({
-      type: INITIATE_CHECKOUT,
+      type: PAYMENT_SUCCESS,
       payload: res.formData,
     });
   } catch (err) {

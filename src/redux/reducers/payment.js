@@ -1,15 +1,18 @@
-import { PAYMENT_ERROR,SET_ALERT } from '../actions/types';
+import { PAYMENT_SUCCESS } from '../actions/types';
 
 
 const initialState = {
   paymentStatus: '',
 };
 
-const payment = ({ state = initialState, action }) => {
+export default function ( state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
-    case PAYMENT_ERROR:
-
+    case PAYMENT_SUCCESS:
+      return{
+        ...state,
+        paymentStatus:'success'
+      }
     default:
       return state;
   }

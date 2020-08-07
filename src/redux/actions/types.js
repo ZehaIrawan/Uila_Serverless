@@ -27,9 +27,11 @@ export const GET_ADDRESS = 'GET_ADDRESS';
 export const ADD_USER_ADDRESS = 'ADD_USER_ADDRESS';
 export const SELECT_ADDRESS = 'SELECT_ADDRESS';
 export const INITIATE_CHECKOUT = 'INITITATE_CHECKOUT';
-export const PAYMENT_ERROR = 'PAYMENT_ERROR'
-export const SET_ALERT = 'SET_ALERT'
-export const REMOVE_ALERT = 'REMOVE_ALERT'
+export const PAYMENT_ERROR = 'PAYMENT_ERROR';
+export const SET_ALERT = 'SET_ALERT';
+export const REMOVE_ALERT = 'REMOVE_ALERT';
+export const PAYMENT_SUCCESS = 'PAYMENT_SUCCESS';
+
 
 
 
