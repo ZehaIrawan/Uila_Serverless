@@ -12,6 +12,7 @@ const initialState = {
   loading: true,
   error: {},
   total: 0,
+  address:{}
 };
 
 const cart = (state = initialState, action) => {
@@ -22,6 +23,7 @@ const cart = (state = initialState, action) => {
         ...state,
         cart: payload.cart_items,
         total: payload.total,
+        address:payload.address,
         loading: false,
       };
     case ADD_TO_CART:

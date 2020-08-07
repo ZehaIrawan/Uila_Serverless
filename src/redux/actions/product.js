@@ -42,14 +42,8 @@ export const getProductCategories = () => async (dispatch) => {
 
 // Add Product
 export const addProduct = (formData) => async (dispatch) => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-
   try {
-    const res = await api.post(`/products`, formData, config);
+    const res = await api.post(`/products`, formData);
 
     dispatch({
       type: ADD_PRODUCT,
@@ -100,16 +94,11 @@ export const editProduct = (formData) => async (dispatch) => {
 // Update Product
 
 export const updateProduct = (id, formData) => async (dispatch) => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
+
   try {
     const res = await api.put(
       `${process.env.REACT_APP_API_BASE_URL}/api/v1/products${id}`,
       formData,
-      config,
     );
 
     dispatch({

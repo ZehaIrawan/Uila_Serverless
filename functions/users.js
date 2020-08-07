@@ -1,5 +1,4 @@
 const serverless = require('serverless-http');
-const bodyParser = require('body-parser');
 const express = require('express');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
@@ -8,13 +7,13 @@ const bcrypt = require('bcryptjs');
 require('dotenv').config();
 const auth = require('../middleware/auth');
 
-const db = require('./server');
+require('./server');
 
 const app = express();
 const router = express.Router();
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 // Get User Data
 
@@ -171,7 +170,7 @@ router.post('/upgrade', auth, async (req, res) => {
       user.isAdmin = true;
       await user.save();
       res.json({ msg: 'User Upgraded successfully!' });
-    } else{
+    } else {
       return res.status(400).json({ msg: 'Wrong Upgrade Key' });
     }
   } catch (err) {

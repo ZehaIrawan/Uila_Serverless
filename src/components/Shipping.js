@@ -1,7 +1,8 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getAddress,createAddress,selectAddress } from '../redux/actions/address';
+import { getAddress,createAddress } from '../redux/actions/address';
+import {selectAddress} from '../redux/actions/cart'
 import Navbar from './Navbar';
 
 const Shipping = ({ address, getAddress,createAddress,selectAddress,loading }) => {
@@ -38,12 +39,10 @@ const Shipping = ({ address, getAddress,createAddress,selectAddress,loading }) =
   const userAddress = (
     <div>
       <h1 className="text-lg font-semibold">Select a delivery address</h1>
-      <select  onChange={e => selectAddress(e.target.value)}>
+      <select  onChange={e => selectAddress(address[address.findIndex(a =>a.address === e.target.value )]._id)}>
         {address.map((e) => {
           return (
-            <option key={e.title} >
-              {e.title}
-
+            <option key={e._id} >
               {e.address}
             </option>
           );

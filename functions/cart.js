@@ -1,12 +1,11 @@
 const serverless = require('serverless-http');
-const bodyParser = require('body-parser');
 const express = require('express');
-const User = require('../models/User');
 const Cart = require('../models/Cart');
 const Product = require('../models/Product');
+require('../models/Address');
 const { check, validationResult } = require('express-validator');
 const auth = require('../middleware/auth');
-const db = require('./server');
+require('./server');
 
 const app = express();
 const router = express.Router();
@@ -58,13 +57,15 @@ router.post(
 // Get Cart Belong to User
 router.get('/', auth, async (req, res) => {
   try {
-    const cart = await Cart.find({ user: req.user.id }).populate({
-      path: 'cart_items',
-      populate: {
-        path: 'product',
-        model: 'product',
-      },
-    });
+    const cart = await Cart.find({ user: req.user.id })
+      .populate({
+        path: 'cart_items',
+        populate: {
+          path: 'product',
+          model: 'product',
+        },
+      })
+      .populate({ path: 'address', model: 'address' })
 
     res.json(cart);
   } catch (err) {
@@ -97,16 +98,20 @@ router.put('/', auth, async (req, res) => {
           });
     };
 
-    checkProductExist(req.body.cart_items);
+    if (req.body.cart_items) checkProductExist(req.body.cart_items);
+    console.log(req.body.address);
+    cart[0].address = req.body.address;
     await cart[0].save();
 
-    const UpdatedCart = await Cart.find({ user: req.user.id }).populate({
-      path: 'cart_items',
-      populate: {
-        path: 'product',
-        model: 'product',
-      },
-    });
+    const UpdatedCart = await Cart.find({ user: req.user.id })
+      .populate({
+        path: 'cart_items',
+        populate: {
+          path: 'product',
+          model: 'product',
+        },
+      })
+      .populate({ path: 'address', model: 'address' });
 
     res.json(UpdatedCart);
   } catch (err) {

@@ -23,6 +23,9 @@ cart_items: [
     type: Number,
     default:0
   },
+  address:{
+    type: Schema.Types.ObjectId,
+  }
 });
 
 module.exports = mongoose.model('cart', CartSchema);
