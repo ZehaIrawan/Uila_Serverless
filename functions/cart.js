@@ -99,7 +99,14 @@ router.put('/', auth, async (req, res) => {
     };
 
     if (req.body.cart_items) checkProductExist(req.body.cart_items);
-    console.log(req.body.address);
+
+    const getTotal = (arr) => {
+      return  arr.reduce((sum, i) => {
+        return sum + (i.product.price * i.quantity)
+      }, 0)}
+
+    cart[0].total = getTotal(cart[0].cart_items)
+
     cart[0].address = req.body.address;
     await cart[0].save();
 
