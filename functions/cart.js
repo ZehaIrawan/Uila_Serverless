@@ -105,7 +105,8 @@ router.put('/', auth, async (req, res) => {
         return sum + (i.product.price * i.quantity)
       }, 0)}
 
-    cart[0].total = getTotal(cart[0].cart_items)
+    //   console.log(cart[0].total);
+    // cart[0].total = getTotal(cart[0].cart_items)
 
     cart[0].address = req.body.address;
     await cart[0].save();

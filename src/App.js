@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
+import Alert from './components/Alert';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import Upgrade from './components/auth/Upgrade';
@@ -10,11 +11,11 @@ import Payment from './components/Payment';
 import ProductList from './components/ProductList';
 import PrivateRoutes from './components/routing/PrivateRoutes';
 import Shipping from './components/Shipping';
+import Upload from './components/Upload';
 import { loadUser } from './redux/actions/auth';
 import store from './redux/store';
-import Upload from './components/Upload'
 import setAuthToken from './utils/setAuthToken';
-import Alert from './components/Alert'
+import Order from './components/Order'
 
 const App = () => {
   useEffect(() => {
@@ -35,6 +36,8 @@ const App = () => {
             <Route exact path="/products" component={ProductList} />
             <Route exact path="/upload" component={Upload} />
             <PrivateRoutes exact path="/cart" component={Cart} />
+            <PrivateRoutes exact path="/order" component={Order} />
+
             <PrivateRoutes
               exact
               path="/shipping"

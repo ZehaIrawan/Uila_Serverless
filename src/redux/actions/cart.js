@@ -7,6 +7,7 @@ import {
   INCREASE_CART,
   REMOVE_CART,
 } from './types';
+import {setAlert} from './alert'
 
 // Get all products
 export const getCart = () => async (dispatch) => {
@@ -23,6 +24,7 @@ export const getCart = () => async (dispatch) => {
 
 // Add an item to cart
 export const addToCart = (id, quantity) => async (dispatch) => {
+  console.log(id,quantity);
   const params = {
     cart_items: {
       product: id,
@@ -37,6 +39,7 @@ export const addToCart = (id, quantity) => async (dispatch) => {
       type: ADD_TO_CART,
       payload: res.data,
     });
+    dispatch(setAlert('Product added to cart!', 'bg-green-600'));
   } catch (err) {
     console.log(err);
   }
@@ -50,6 +53,7 @@ export const removeCart = (id) => async (dispatch) => {
       type: REMOVE_CART,
       payload: id,
     });
+    dispatch(setAlert('Product removed!', 'bg-green-600'));
   } catch (err) {
     console.log(err);
   }

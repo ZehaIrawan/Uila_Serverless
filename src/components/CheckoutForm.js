@@ -2,9 +2,14 @@ import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import React from 'react';
 import { connect } from 'react-redux';
 import { initiateCheckout } from '../redux/actions/payment';
-import {setAlert} from '../redux/actions/alert'
 
-const CheckoutForm = ({ success, initiateCheckout, cart, address,loading }) => {
+const CheckoutForm = ({
+  success,
+  initiateCheckout,
+  cart,
+  address,
+  loading,
+}) => {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -27,9 +32,8 @@ const CheckoutForm = ({ success, initiateCheckout, cart, address,loading }) => {
     }
   };
 
-
-  if(loading) {
-    return <div>Loading...</div>
+  if (loading) {
+    return <div>Loading...</div>;
   }
 
   return (
@@ -51,10 +55,13 @@ const CheckoutForm = ({ success, initiateCheckout, cart, address,loading }) => {
           );
         })}
 
-        <h1>Delivery Address</h1>
+        <h1 className="mt-4">{`Total $ : ${cart.total}`}</h1>
+
+        <h1 className="mt-4">Delivery Address</h1>
         <p>{address.title}</p>
         <p>{address.address}</p>
-        <CardElement hidePostalCode={true} />
+
+        <CardElement className="mt-6" hidePostalCode={true} />
         <button type="submit" disabled={!stripe}>
           Pay
         </button>

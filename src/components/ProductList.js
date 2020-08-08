@@ -41,7 +41,7 @@ const ProductList = ({
 
   const skeletonNumber = 6;
 
-  if (loading) {
+if (loading) {
     return (
       <Fragment>
         <Navbar />

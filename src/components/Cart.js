@@ -53,7 +53,7 @@ const Cart = ({
   return (
     <Fragment>
       <Navbar />
-      <div className="flex">
+      <div className="flex  mt-12 justify-between mr-32">
         <div>
           {cart.cart.map((cart) => (
             <CartItem
@@ -73,14 +73,15 @@ const Cart = ({
         </div>
 
         <div className="ml-20">
-          <button
+          {/* <button
+          className="shadow-lg mt-2 bg-primary text-white px-2 py-1 rounded-lg focus:outline-none font-medium mb-6 mr-6"
             onClick={() => {
               clearCart(cart.cart);
             }}
           >
             Clear Cart
-          </button>
-          <h3>Total: ${cart.total}</h3>
+          </button> */}
+          <h3 className="text-primary font-bold">Total: ${cart.total}</h3>
           <button className="shadow-lg mt-2 bg-primary text-white px-2 py-1 rounded-lg focus:outline-none font-medium mb-6 mr-6">
             <Link to="/shipping">Checkout</Link>
           </button>
