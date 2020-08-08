@@ -5,6 +5,11 @@ const auth = require('../middleware/auth');
 require('./server');
 const Stripe = require('stripe')
 require('dotenv').config();
+const Order = require('../models/Order');
+const Cart = require('../models/Cart');
+require('../models/Product');
+require('../models/Address');
+
 
 const app = express();
 const router = express.Router();
@@ -41,13 +46,40 @@ router.post(
         confirm: true
       });
 
+      const cart = await Cart.find({ user: req.user.id })
+      .populate({
+        path: 'cart_items',
+        populate: {
+          path: 'product',
+          model: 'product',
+        },
+      })
+      .populate({ path: 'address', model: 'address' })
+
+      const newOrder= new Order({
+
+        user: req.user.id,
+        status: 'ON PROCESS',
+        cart_items: cart[0].cart_items,
+        total: cart[0].total,
+        address:cart[0].address,
+        paymentId: payment.id
+      });
+
+      const order = await newOrder.save();
+
+      cart[0].cart_items = []
+      cart[0].save()
+
+// Reset cart_items
+
       console.log(payment);
+      console.log(order);
 
       return res.status(200).json({
         confirm: "abc123"
       });
     } catch (error) {
-      console.log(error);
       return res.status(400).json({
         message: error.message
       });
