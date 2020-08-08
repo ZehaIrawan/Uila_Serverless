@@ -5,6 +5,7 @@ import cart from './cart'
 import address from './address'
 import alert from './alert'
 import payment from './payment'
+import order from './order'
 
 export default combineReducers({
   auth,
@@ -12,5 +13,6 @@ export default combineReducers({
   cart,
   address,
   alert,
-  payment
+  payment,
+  order
 });

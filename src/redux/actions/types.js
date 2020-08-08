@@ -31,6 +31,7 @@ export const PAYMENT_ERROR = 'PAYMENT_ERROR';
 export const SET_ALERT = 'SET_ALERT';
 export const REMOVE_ALERT = 'REMOVE_ALERT';
 export const PAYMENT_SUCCESS = 'PAYMENT_SUCCESS';
+export const GET_ORDER = 'GET_ORDER';
 
 
 

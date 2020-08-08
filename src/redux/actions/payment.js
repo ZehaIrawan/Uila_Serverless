@@ -12,6 +12,7 @@ export const initiateCheckout = (orderDetails) => async (dispatch) => {
       type: PAYMENT_SUCCESS,
       payload: res.formData,
     });
+    dispatch(setAlert('Payment Successful', 'bg-green-600'));
   } catch (err) {
     dispatch(setAlert(err.response.data.message, 'bg-red-600'));
   }
