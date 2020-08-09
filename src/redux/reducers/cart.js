@@ -27,10 +27,12 @@ const cart = (state = initialState, action) => {
         loading: false,
       };
     case ADD_TO_CART:
+      console.log(payload);
+
       let newProduct = false;
 
       const productInCart = state.cart.map((item, index) => {
-        if (item.id === payload.id) {
+        if (item.product._id === payload.product._id) {
           newProduct = false;
           return {
             ...item,
@@ -41,7 +43,9 @@ const cart = (state = initialState, action) => {
         }
         return item;
       });
+      if(state.cart.length < 1) productInCart.push(payload.cart_items[0])
       if (newProduct) productInCart.push(payload);
+
       return {
         ...state,
         cart: productInCart,

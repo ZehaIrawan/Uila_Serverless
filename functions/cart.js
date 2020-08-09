@@ -46,6 +46,7 @@ router.post(
           model: 'product',
         },
       });
+      console.log(cart.cart_items[0]);
       res.json(cart);
     } catch (err) {
       console.error(err.message);
@@ -77,7 +78,7 @@ router.get('/', auth, async (req, res) => {
 // Update Cart
 router.put('/', auth, async (req, res) => {
   try {
-    const cart = await Cart.find({ user: req.user.id }).populate({
+   let cart = await Cart.find({ user: req.user.id }).populate({
       path: 'cart_items',
       populate: {
         path: 'product',
@@ -99,14 +100,23 @@ router.put('/', auth, async (req, res) => {
     };
 
     if (req.body.cart_items) checkProductExist(req.body.cart_items);
+    await cart[0].save();
+
+   cart = await Cart.find({ user: req.user.id }).populate({
+      path: 'cart_items',
+      populate: {
+        path: 'product',
+        model: 'product',
+      },
+    });
 
     const getTotal = (arr) => {
       return  arr.reduce((sum, i) => {
+        console.log(i.product.price , i.quantity);
         return sum + (i.product.price * i.quantity)
       }, 0)}
 
-    //   console.log(cart[0].total);
-    // cart[0].total = getTotal(cart[0].cart_items)
+    cart[0].total = getTotal(cart[0].cart_items)
 
     cart[0].address = req.body.address;
     await cart[0].save();

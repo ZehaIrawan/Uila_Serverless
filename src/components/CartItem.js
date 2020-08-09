@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import {updateCart} from '../redux/actions/cart'
 
 const CartItem = ({
   title,
@@ -13,6 +14,7 @@ const CartItem = ({
   increaseCart,
   decreaseCart,
   cart,
+  updateCart
 }) => {
   const changeQuantity = (e) => {
     // console.log(e);
@@ -29,7 +31,7 @@ const CartItem = ({
             <h4 className="text-primary font-bold">$ {price}</h4>
           </div>
         </div>
-        <button onClick={() => decreaseCart(cart_id, quantity - 1)}>
+        <button onClick={() => updateCart(product_id, quantity - 1)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="30"
@@ -51,7 +53,10 @@ const CartItem = ({
           onChange={changeQuantity(quantity)}
           placeholder={quantity}
         ></input>
-        <button onClick={() => increaseCart(cart_id, quantity + 1)}>
+        <button onClick={() =>updateCart(
+                 product_id,
+                  quantity+1
+                )}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="30"
@@ -111,4 +116,4 @@ const mapStateToProp = (state) => ({
   product: state.product.products,
 });
 
-export default connect(mapStateToProp, {})(CartItem);
+export default connect(mapStateToProp, {updateCart})(CartItem);

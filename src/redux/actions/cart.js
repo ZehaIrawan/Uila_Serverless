@@ -24,7 +24,6 @@ export const getCart = () => async (dispatch) => {
 
 // Add an item to cart
 export const addToCart = (id, quantity) => async (dispatch) => {
-  console.log(id,quantity);
   const params = {
     cart_items: {
       product: id,
@@ -34,7 +33,6 @@ export const addToCart = (id, quantity) => async (dispatch) => {
 
   try {
     const res = await api.post(`cart`, params);
-
     dispatch({
       type: ADD_TO_CART,
       payload: res.data,
