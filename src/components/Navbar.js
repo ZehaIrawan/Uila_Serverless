@@ -27,6 +27,14 @@ const Navbar = ({
 
       <Link
         className="font-semibold text-lg sm:hover:bg-gray-300 rounded-lg mt-1 px-2 py-1"
+        to="/order"
+      >
+        <h2>Your Orders</h2>
+      </Link>
+
+
+      <Link
+        className="font-semibold text-lg sm:hover:bg-gray-300 rounded-lg mt-1 px-2 py-1"
         to="/"
       >
         <h2 onClick={logout}>Logout</h2>

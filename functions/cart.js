@@ -1,12 +1,11 @@
 const serverless = require('serverless-http');
-const bodyParser = require('body-parser');
 const express = require('express');
-const User = require('../models/User');
 const Cart = require('../models/Cart');
 const Product = require('../models/Product');
+require('../models/Address');
 const { check, validationResult } = require('express-validator');
 const auth = require('../middleware/auth');
-const db = require('./server');
+require('./server');
 
 const app = express();
 const router = express.Router();
@@ -30,7 +29,7 @@ router.post(
     const initialCart = {
       user: req.user.id,
       cart_items: req.body.cart_items,
-      total: req.body.cart_items.quantity * product.price,
+      total: (req.body.cart_items.quantity * product.price).toFixed(2),
     };
 
     try {
@@ -47,6 +46,7 @@ router.post(
           model: 'product',
         },
       });
+      console.log(cart.cart_items[0]);
       res.json(cart);
     } catch (err) {
       console.error(err.message);
@@ -58,13 +58,15 @@ router.post(
 // Get Cart Belong to User
 router.get('/', auth, async (req, res) => {
   try {
-    const cart = await Cart.find({ user: req.user.id }).populate({
-      path: 'cart_items',
-      populate: {
-        path: 'product',
-        model: 'product',
-      },
-    });
+    const cart = await Cart.find({ user: req.user.id })
+      .populate({
+        path: 'cart_items',
+        populate: {
+          path: 'product',
+          model: 'product',
+        },
+      })
+      .populate({ path: 'address', model: 'address' });
 
     res.json(cart);
   } catch (err) {
@@ -76,7 +78,7 @@ router.get('/', auth, async (req, res) => {
 // Update Cart
 router.put('/', auth, async (req, res) => {
   try {
-    const cart = await Cart.find({ user: req.user.id }).populate({
+    let cart = await Cart.find({ user: req.user.id }).populate({
       path: 'cart_items',
       populate: {
         path: 'product',
@@ -97,10 +99,11 @@ router.put('/', auth, async (req, res) => {
           });
     };
 
-    checkProductExist(req.body.cart_items);
+    if (req.body.cart_items) checkProductExist(req.body.cart_items);
+
     await cart[0].save();
 
-    const UpdatedCart = await Cart.find({ user: req.user.id }).populate({
+    cart = await Cart.find({ user: req.user.id }).populate({
       path: 'cart_items',
       populate: {
         path: 'product',
@@ -108,7 +111,36 @@ router.put('/', auth, async (req, res) => {
       },
     });
 
-    res.json(UpdatedCart);
+    const getTotal = (arr) => {
+      return arr.reduce((sum, i) => {
+        return sum + i.product.price * i.quantity;
+      }, 0).toFixed(2);
+    };
+
+    cart[0].total = getTotal(cart[0].cart_items);
+
+    cart[0].address = req.body.address;
+    await cart[0].save();
+
+    const UpdatedCart = await Cart.find({ user: req.user.id })
+      .populate({
+        path: 'cart_items',
+        populate: {
+          path: 'product',
+          model: 'product',
+        },
+      })
+      .populate({ path: 'address', model: 'address' });
+
+    let response
+
+    if (req.body.cart_items) {
+      response = UpdatedCart[0].cart_items.filter(
+        (e) => `${e.product._id}` === req.body.cart_items.product._id,
+      );
+    }
+
+    res.json(response);
   } catch (err) {
     console.log(err.message);
     res.status(500).send('Server Error');

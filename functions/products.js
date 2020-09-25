@@ -5,13 +5,13 @@ const Product = require('../models/Product');
 const { check, validationResult } = require('express-validator');
 const auth = require('../middleware/auth');
 const checkObjectId = require('../middleware/checkObjectId');
-const db = require('./server');
+require('./server');
 
 const cloudinary = require('cloudinary');
-const { json, urlencoded } = require('body-parser');
+
 const app = express();
-app.use(urlencoded({ extended: true }));
-app.use(json());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 require('dotenv').config();
 
 const router = express.Router();

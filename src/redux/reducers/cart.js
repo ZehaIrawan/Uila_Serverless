@@ -12,6 +12,7 @@ const initialState = {
   loading: true,
   error: {},
   total: 0,
+  address:{}
 };
 
 const cart = (state = initialState, action) => {
@@ -22,13 +23,14 @@ const cart = (state = initialState, action) => {
         ...state,
         cart: payload.cart_items,
         total: payload.total,
+        address:payload.address,
         loading: false,
       };
     case ADD_TO_CART:
       let newProduct = false;
 
       const productInCart = state.cart.map((item, index) => {
-        if (item.id === payload.id) {
+        if (item.product._id === payload[0].product._id) {
           newProduct = false;
           return {
             ...item,
@@ -39,7 +41,9 @@ const cart = (state = initialState, action) => {
         }
         return item;
       });
+      if(state.cart.length < 1) productInCart.push(payload.cart_items[0])
       if (newProduct) productInCart.push(payload);
+
       return {
         ...state,
         cart: productInCart,
@@ -60,12 +64,12 @@ const cart = (state = initialState, action) => {
         cart: state.cart.map((item, index) => {
           // Find the item with the matching id
 
-          if (item._id === payload._id) {
+          if (item.product._id === payload) {
             // Return a new object
 
             return {
               ...item, // copy the existing item
-              quantity: payload.quantity,
+              quantity: item.quantity +1
             };
           }
           // Leave every other item unchanged
@@ -82,12 +86,12 @@ const cart = (state = initialState, action) => {
         cart: state.cart.map((item, index) => {
           // Find the item with the matching id
 
-          if (item._id === payload._id) {
+          if (item.product._id === payload) {
             // Return a new object
 
             return {
               ...item, // copy the existing item
-              quantity: payload.quantity,
+              quantity: item.quantity -1
             };
           }
           // Leave every other item unchanged

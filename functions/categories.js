@@ -1,5 +1,4 @@
 const serverless = require('serverless-http');
-const bodyParser = require('body-parser');
 const express = require('express');
 const User = require('../models/User');
 const Category = require('../models/Category');
@@ -7,13 +6,13 @@ const Product = require('../models/Product');
 const { check, validationResult } = require('express-validator');
 const auth = require('../middleware/auth');
 const checkObjectId = require('../middleware/checkObjectId');
-const db = require('./server');
+require('./server');
 
 const app = express();
 const router = express.Router();
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 // Add Category
 router.post(

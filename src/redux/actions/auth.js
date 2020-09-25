@@ -16,7 +16,7 @@ export const loadUser = () => async (dispatch) => {
     );
     dispatch({
       type: USER_LOADED,
-      payload: res.data,
+      payload: res.data
     });
   } catch (err) {
     dispatch({
@@ -27,11 +27,6 @@ export const loadUser = () => async (dispatch) => {
 
 // Register User
 export const register = ({ name, email, password }) => async (dispatch) => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
 
   const body = JSON.stringify({ name, email, password });
 
@@ -39,7 +34,6 @@ export const register = ({ name, email, password }) => async (dispatch) => {
     const res = await api.post(
       `/users/signup`,
       body,
-      config,
     );
 
     dispatch({
@@ -62,11 +56,6 @@ export const register = ({ name, email, password }) => async (dispatch) => {
 
 // Login User
 export const login = (email, password) => async (dispatch) => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
 
   const body = JSON.stringify({ email, password });
 
@@ -74,7 +63,6 @@ export const login = (email, password) => async (dispatch) => {
     const res = await api.post(
       `/users/signin`,
       body,
-      config,
     );
 
     dispatch({

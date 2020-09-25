@@ -3,7 +3,7 @@ const express = require('express');
 const Address = require('../models/Address');
 const { check, validationResult } = require('express-validator');
 const auth = require('../middleware/auth');
-const db = require('./server');
+require('./server');
 
 const app = express();
 const router = express.Router();
