@@ -42,13 +42,12 @@ const cart = (state = initialState, action) => {
         return item;
       });
       if(state.cart.length < 1) productInCart.push(payload.cart_items[0])
-      if (newProduct) productInCart.push(payload);
+      if (newProduct) productInCart.push(payload[0]);
 
       return {
         ...state,
         cart: productInCart,
         payload,
-        total: payload.total,
         loading: false,
       };
     case REMOVE_CART:
