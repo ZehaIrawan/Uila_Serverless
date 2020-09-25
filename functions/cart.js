@@ -29,7 +29,7 @@ router.post(
     const initialCart = {
       user: req.user.id,
       cart_items: req.body.cart_items,
-      total: req.body.cart_items.quantity * product.price,
+      total: (req.body.cart_items.quantity * product.price).toFixed(2),
     };
 
     try {
@@ -66,7 +66,7 @@ router.get('/', auth, async (req, res) => {
           model: 'product',
         },
       })
-      .populate({ path: 'address', model: 'address' })
+      .populate({ path: 'address', model: 'address' });
 
     res.json(cart);
   } catch (err) {
@@ -78,7 +78,7 @@ router.get('/', auth, async (req, res) => {
 // Update Cart
 router.put('/', auth, async (req, res) => {
   try {
-   let cart = await Cart.find({ user: req.user.id }).populate({
+    let cart = await Cart.find({ user: req.user.id }).populate({
       path: 'cart_items',
       populate: {
         path: 'product',
@@ -100,9 +100,10 @@ router.put('/', auth, async (req, res) => {
     };
 
     if (req.body.cart_items) checkProductExist(req.body.cart_items);
+
     await cart[0].save();
 
-   cart = await Cart.find({ user: req.user.id }).populate({
+    cart = await Cart.find({ user: req.user.id }).populate({
       path: 'cart_items',
       populate: {
         path: 'product',
@@ -111,12 +112,12 @@ router.put('/', auth, async (req, res) => {
     });
 
     const getTotal = (arr) => {
-      return  arr.reduce((sum, i) => {
-        console.log(i.product.price , i.quantity);
-        return sum + (i.product.price * i.quantity)
-      }, 0)}
+      return arr.reduce((sum, i) => {
+        return sum + i.product.price * i.quantity;
+      }, 0).toFixed(2);
+    };
 
-    cart[0].total = getTotal(cart[0].cart_items)
+    cart[0].total = getTotal(cart[0].cart_items);
 
     cart[0].address = req.body.address;
     await cart[0].save();
@@ -131,7 +132,15 @@ router.put('/', auth, async (req, res) => {
       })
       .populate({ path: 'address', model: 'address' });
 
-    res.json(UpdatedCart);
+    let response
+
+    if (req.body.cart_items) {
+      response = UpdatedCart[0].cart_items.filter(
+        (e) => `${e.product._id}` === req.body.cart_items.product._id,
+      );
+    }
+
+    res.json(response);
   } catch (err) {
     console.log(err.message);
     res.status(500).send('Server Error');

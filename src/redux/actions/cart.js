@@ -58,49 +58,46 @@ export const removeCart = (id) => async (dispatch) => {
 };
 
 // Increase quantity for an item in the cart
-export const increaseCart = (id, quantity) => async (dispatch) => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
+export const  increaseCart = (id, quantity) => async (dispatch) => {
+  const params = {
+    cart_items: {
+      product: {
+        _id: id,
+      },
+      quantity,
     },
   };
 
-  quantity = {
-    quantity,
-  };
-
   try {
-    const res = await api.put(
-      `${process.env.REACT_APP_API_BASE_URL}/api/v1/cart_items/${id}`,
-      quantity,
-      config,
-    );
+    const res = await api.put(`cart`, params);
 
     dispatch({
       type: INCREASE_CART,
-      payload: res.data,
+      payload: id,
     });
   } catch (err) {
     console.log(err);
   }
 };
 
-// Decrease quantity for an item in the cart
-export const decreaseCart = (id, quantity) => async (dispatch) => {
 
-  quantity = {
-    quantity,
+// Decrease quantity for an item in the cart
+export const  decreaseCart = (id, quantity) => async (dispatch) => {
+  const params = {
+    cart_items: {
+      product: {
+        _id: id,
+      },
+      quantity,
+    },
   };
 
   try {
-    const res = await api.put(
-      `${process.env.REACT_APP_API_BASE_URL}/api/v1/cart_items/${id}`,
-      quantity,
-    );
+    const res = await api.put(`cart`, params);
 
     dispatch({
       type: DECREASE_CART,
-      payload: res.data,
+      payload: id,
     });
   } catch (err) {
     console.log(err);
@@ -142,6 +139,7 @@ export const updateCart = (id, quantity) => async (dispatch) => {
       type: ADD_TO_CART,
       payload: res.data,
     });
+    dispatch(setAlert('Product added to cart!', 'bg-green-600'));
   } catch (err) {
     console.log(err);
   }

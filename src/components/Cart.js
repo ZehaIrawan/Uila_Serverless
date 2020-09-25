@@ -81,7 +81,9 @@ const Cart = ({
           >
             Clear Cart
           </button> */}
-          <h3 className="text-primary font-bold">Total: ${cart.total}</h3>
+          <h3 className="text-primary font-bold">
+            Total: ${cart.total.toFixed(2)}
+          </h3>
           <button className="shadow-lg mt-2 bg-primary text-white px-2 py-1 rounded-lg focus:outline-none font-medium mb-6 mr-6">
             <Link to="/shipping">Checkout</Link>
           </button>

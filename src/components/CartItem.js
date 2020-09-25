@@ -31,7 +31,7 @@ const CartItem = ({
             <h4 className="text-primary font-bold">$ {price}</h4>
           </div>
         </div>
-        <button onClick={() => updateCart(product_id, quantity - 1)}>
+        <button  className="focus:outline-none" onClick={() => decreaseCart(product_id, quantity - 1)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="30"
@@ -53,7 +53,7 @@ const CartItem = ({
           onChange={changeQuantity(quantity)}
           placeholder={quantity}
         ></input>
-        <button onClick={() =>updateCart(
+        <button className="focus:outline-none" onClick={() =>increaseCart(
                  product_id,
                   quantity+1
                 )}>

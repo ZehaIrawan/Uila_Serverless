@@ -27,12 +27,10 @@ const cart = (state = initialState, action) => {
         loading: false,
       };
     case ADD_TO_CART:
-      console.log(payload);
-
       let newProduct = false;
 
       const productInCart = state.cart.map((item, index) => {
-        if (item.product._id === payload.product._id) {
+        if (item.product._id === payload[0].product._id) {
           newProduct = false;
           return {
             ...item,
@@ -66,12 +64,12 @@ const cart = (state = initialState, action) => {
         cart: state.cart.map((item, index) => {
           // Find the item with the matching id
 
-          if (item._id === payload._id) {
+          if (item.product._id === payload) {
             // Return a new object
 
             return {
               ...item, // copy the existing item
-              quantity: payload.quantity,
+              quantity: item.quantity +1
             };
           }
           // Leave every other item unchanged
@@ -88,12 +86,12 @@ const cart = (state = initialState, action) => {
         cart: state.cart.map((item, index) => {
           // Find the item with the matching id
 
-          if (item._id === payload._id) {
+          if (item.product._id === payload) {
             // Return a new object
 
             return {
               ...item, // copy the existing item
-              quantity: payload.quantity,
+              quantity: item.quantity -1
             };
           }
           // Leave every other item unchanged
